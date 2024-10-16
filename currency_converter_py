@@ -1,0 +1,516 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyO0aNlFZiXC+jjP4JeEOEgT",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/tahira11/currency-converter/blob/main/currency_converter_py\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "H6kxXemqO0W4",
+        "outputId": "4f91b263-54ca-47d7-da7b-d4d7f1082cce"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "2024-10-16 16:53:24.232 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.346 \n",
+            "  \u001b[33m\u001b[1mWarning:\u001b[0m to view this Streamlit app on a browser, run it with the following\n",
+            "  command:\n",
+            "\n",
+            "    streamlit run /usr/local/lib/python3.10/dist-packages/colab_kernel_launcher.py [ARGUMENTS]\n",
+            "2024-10-16 16:53:24.348 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.352 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.356 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.359 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.363 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.365 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.370 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.373 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.375 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.377 Session state does not function when running a script without `streamlit run`\n",
+            "2024-10-16 16:53:24.383 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.386 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.391 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.393 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.394 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.395 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.397 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.398 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.404 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.406 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.409 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.413 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.415 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.416 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.420 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.422 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.425 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.427 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 16:53:24.428 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"
+          ]
+        }
+      ],
+      "source": [
+        "import streamlit as st\n",
+        "\n",
+        "# Function to convert temperatures\n",
+        "def convert_temperature(value, from_unit, to_unit):\n",
+        "    if from_unit == 'Celsius':\n",
+        "        if to_unit == 'Fahrenheit':\n",
+        "            return (value * 9/5) + 32\n",
+        "        elif to_unit == 'Kelvin':\n",
+        "            return value + 273.15\n",
+        "        else:\n",
+        "            return value\n",
+        "    elif from_unit == 'Fahrenheit':\n",
+        "        if to_unit == 'Celsius':\n",
+        "            return (value - 32) * 5/9\n",
+        "        elif to_unit == 'Kelvin':\n",
+        "            return (value - 32) * 5/9 + 273.15\n",
+        "        else:\n",
+        "            return value\n",
+        "    elif from_unit == 'Kelvin':\n",
+        "        if to_unit == 'Celsius':\n",
+        "            return value - 273.15\n",
+        "        elif to_unit == 'Fahrenheit':\n",
+        "            return (value - 273.15) * 9/5 + 32\n",
+        "        else:\n",
+        "            return value\n",
+        "    else:\n",
+        "        return \"Invalid unit\"\n",
+        "\n",
+        "# Streamlit interface\n",
+        "st.title(\"🌡️ Temperature Converter\")\n",
+        "\n",
+        "st.write(\"Convert temperatures between Celsius, Fahrenheit, and Kelvin with ease!\")\n",
+        "\n",
+        "# User input\n",
+        "input_temp = st.number_input(\"Enter the temperature value:\", format=\"%f\")\n",
+        "from_unit = st.selectbox(\"Select the unit to convert from:\", ['Celsius', 'Fahrenheit', 'Kelvin'])\n",
+        "to_unit = st.selectbox(\"Select the unit to convert to:\", ['Celsius', 'Fahrenheit', 'Kelvin'])\n",
+        "\n",
+        "# Conversion result\n",
+        "if st.button('Convert'):\n",
+        "    converted_temp = convert_temperature(input_temp, from_unit, to_unit)\n",
+        "    st.success(f\"The converted temperature is {converted_temp:.2f} {to_unit}!\")\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import streamlit as st\n",
+        "\n",
+        "# Set page configuration\n",
+        "st.set_page_config(page_title=\"Temperature Converter\", page_icon=\"🌡️\", layout=\"centered\")\n",
+        "\n",
+        "# Function to convert temperature\n",
+        "def convert_temperature(temp, unit_from, unit_to):\n",
+        "    if unit_from == unit_to:\n",
+        "        return temp\n",
+        "\n",
+        "    if unit_from == \"Celsius\":\n",
+        "        if unit_to == \"Fahrenheit\":\n",
+        "            return temp * 9/5 + 32\n",
+        "        elif unit_to == \"Kelvin\":\n",
+        "            return temp + 273.15\n",
+        "\n",
+        "    elif unit_from == \"Fahrenheit\":\n",
+        "        if unit_to == \"Celsius\":\n",
+        "            return (temp - 32) * 5/9\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "GKmQfN0CQaS4",
+        "outputId": "2e23af0c-f8d9-4423-b88f-a51937ee739a"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "2024-10-16 16:55:58.147 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Currency converter with real-time rates using Streamlit\n",
+        "\n",
+        "import streamlit as st\n",
+        "from forex_python.converter import CurrencyRates, CurrencyCodes\n",
+        "from forex_python.bitcoin import BtcConverter\n",
+        "\n",
+        "# Initialize the currency rate and code converters\n",
+        "cr = CurrencyRates()\n",
+        "cc = CurrencyCodes()\n",
+        "btc_converter = BtcConverter()\n",
+        "\n",
+        "# Streamlit App Layout\n",
+        "st.title(\"💰 Currency Converter 💱\")\n",
+        "st.write(\"Convert between different currencies in real-time\")\n",
+        "\n",
+        "# List of available currencies\n",
+        "currencies = ['USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'JPY', 'CNY', 'BTC']\n",
+        "\n",
+        "# Input fields for selecting base currency and target currency\n",
+        "from_currency = st.selectbox(\"From Currency\", currencies)\n",
+        "to_currency = st.selectbox(\"To Currency\", currencies)\n",
+        "\n",
+        "# Input field for the amount to convert\n",
+        "amount = st.number_input(f\"Enter amount in {from_currency}:\", min_value=0.0, value=1.0, format=\"%.2f\")\n",
+        "\n",
+        "# Function to perform conversion\n",
+        "def convert_currency(from_curr, to_curr, amt):\n",
+        "    if from_curr == \"BTC\":\n",
+        "        result = btc_converter.convert_btc_to_cur(amt, to_curr)\n",
+        "    elif to_curr == \"BTC\":\n",
+        "        result = btc_converter.convert_to_btc(amt, from_curr)\n",
+        "    else:\n",
+        "        result = cr.convert(from_curr, to_curr, amt)\n",
+        "    return result\n",
+        "\n",
+        "# Display conversion when 'Convert' button is clicked\n",
+        "if st.button(\"Convert\"):\n",
+        "    try:\n",
+        "        converted_amount = convert_currency(from_currency, to_currency, amount)\n",
+        "        symbol = cc.get_symbol(to_currency) or \"\"\n",
+        "        st.success(f\"💵 {amount} {from_currency} = {symbol}{converted_amount:.2f} {to_currency}\")\n",
+        "    except Exception as e:\n",
+        "        st.error(f\"Error: {str(e)}\")\n",
+        "\n",
+        "# Extra info - currency symbols\n",
+        "st.write(\"### Currency Symbols:\")\n",
+        "for currency in currencies:\n",
+        "    st.write(f\"{currency}: {cc.get_symbol(currency)}\")\n",
+        "\n",
+        "# Footer\n",
+        "st.write(\"Powered by Forex-Python & Streamlit | Exchange rates provided by public APIs\")\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 383
+        },
+        "id": "-_7m4dm8RwXp",
+        "outputId": "011b995f-5445-4883-c870-e16a551a4795"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ModuleNotFoundError",
+          "evalue": "No module named 'forex_python'",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-5-b314da1c6394>\u001b[0m in \u001b[0;36m<cell line: 4>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mstreamlit\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mst\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mforex_python\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mconverter\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mCurrencyRates\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mCurrencyCodes\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mforex_python\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbitcoin\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mBtcConverter\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'forex_python'",
+            "",
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0;32m\nNOTE: If your import is failing due to a missing package, you can\nmanually install dependencies using either !pip or !apt.\n\nTo view examples of installing some common dependencies, click the\n\"Open Examples\" button below.\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n"
+          ],
+          "errorDetails": {
+            "actions": [
+              {
+                "action": "open_url",
+                "actionText": "Open Examples",
+                "url": "/notebooks/snippets/importing_libraries.ipynb"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Install Streamlit if you haven't\n",
+        "# !pip install streamlit\n",
+        "\n",
+        "import streamlit as st\n",
+        "import subprocess\n",
+        "import sys\n",
+        "\n",
+        "# Function to install a package internally\n",
+        "def install_package(package):\n",
+        "    subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", package])\n",
+        "\n",
+        "# Install forex-python\n",
+        "install_package(\"forex-python\")\n",
+        "from forex_python.converter import CurrencyRates\n",
+        "\n",
+        "# Create a CurrencyRates object from forex-python\n",
+        "c = CurrencyRates()\n",
+        "\n",
+        "# Streamlit App Title\n",
+        "st.title(\"💸 Currency Converter\")\n",
+        "\n",
+        "# App subtitle with emoji\n",
+        "st.markdown(\"### Convert currencies easily with real-time rates 🌍💱\")\n",
+        "\n",
+        "# Sidebar configuration for user input\n",
+        "st.sidebar.header(\"Currency Converter Settings\")\n",
+        "\n",
+        "# Input from user: Amount, From Currency, To Currency\n",
+        "amount = st.sidebar.number_input(\"Enter amount\", min_value=0.0, value=100.0)\n",
+        "from_currency = st.sidebar.text_input(\"From Currency (e.g., USD)\", value=\"USD\").upper()\n",
+        "to_currency = st.sidebar.text_input(\"To Currency (e.g., EUR)\", value=\"EUR\").upper()\n",
+        "\n",
+        "# Currency conversion logic\n",
+        "if st.sidebar.button(\"Convert\"):\n",
+        "    try:\n",
+        "        # Get the conversion rate\n",
+        "        conversion_rate = c.get_rate(from_currency, to_currency)\n",
+        "        converted_amount = conversion_rate * amount\n",
+        "\n",
+        "        # Displaying the result with proper formatting and emoji\n",
+        "        st.success(f\"💱 {amount} {from_currency} = {converted_amount:.2f} {to_currency}\")\n",
+        "        st.write(f\"Exchange Rate: 1 {from_currency} = {conversion_rate:.4f} {to_currency}\")\n",
+        "\n",
+        "    except Exception as e:\n",
+        "        st.error(f\"Error: {str(e)}\")\n",
+        "\n",
+        "# Styling footer\n",
+        "st.markdown(\"\"\"\n",
+        "<style>\n",
+        "footer {visibility: hidden;}\n",
+        "footer:after {\n",
+        "    content: 'Powered by Streamlit and forex-python | Stay updated with real-time currency rates 💼📈';\n",
+        "    visibility: visible;\n",
+        "    display: block;\n",
+        "    text-align: center;\n",
+        "    padding: 10px;\n",
+        "    font-size: small;\n",
+        "    color: #4CAF50;\n",
+        "}\n",
+        "</style>\n",
+        "\"\"\", unsafe_allow_html=True)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "z8h4k0O7WBl4",
+        "outputId": "7a9cbe16-330a-4e51-b3f2-42ffb03be862"
+      },
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "2024-10-16 18:19:42.173 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.176 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.178 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.179 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.181 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.182 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.183 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.185 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.186 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.187 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.188 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.190 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.191 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.192 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.193 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.194 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.196 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.197 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.199 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.200 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.201 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.202 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.203 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.205 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.206 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.207 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.208 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.210 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.211 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.213 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:19:42.214 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "DeltaGenerator()"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "PdbRQDDFkkQG"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import subprocess\n",
+        "import sys\n",
+        "\n",
+        "# Function to install a package internally\n",
+        "def install_package(package):\n",
+        "    subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", package])\n",
+        "\n",
+        "# Install forex-python\n",
+        "install_package(\"forex-python\")\n",
+        "# Install Streamlit if you haven't\n",
+        "# !pip install streamlit\n",
+        "\n",
+        "import streamlit as st\n",
+        "from forex_python.converter import CurrencyRates\n",
+        "\n",
+        "# Create a CurrencyRates object from forex-python\n",
+        "c = CurrencyRates()\n",
+        "\n",
+        "# Streamlit App Title\n",
+        "st.title(\"💸 Currency Converter\")\n",
+        "\n",
+        "# App subtitle with emoji\n",
+        "st.markdown(\"### Convert currencies easily with real-time rates 🌍💱\")\n",
+        "\n",
+        "# Sidebar configuration for user input\n",
+        "st.sidebar.header(\"Currency Converter Settings\")\n",
+        "\n",
+        "# Input from user: Amount, From Currency, To Currency\n",
+        "amount = st.sidebar.number_input(\"Enter amount\", min_value=0.0, value=100.0)\n",
+        "from_currency = st.sidebar.text_input(\"From Currency (e.g., USD)\", value=\"USD\").upper()\n",
+        "to_currency = st.sidebar.text_input(\"To Currency (e.g., EUR)\", value=\"EUR\").upper()\n",
+        "\n",
+        "# Currency conversion logic\n",
+        "if st.sidebar.button(\"Convert\"):\n",
+        "    try:\n",
+        "        # Get the conversion rate\n",
+        "        conversion_rate = c.get_rate(from_currency, to_currency)\n",
+        "        converted_amount = conversion_rate * amount\n",
+        "\n",
+        "        # Displaying the result with proper formatting and emoji\n",
+        "        st.success(f\"💱 {amount} {from_currency} = {converted_amount:.2f} {to_currency}\")\n",
+        "        st.write(f\"Exchange Rate: 1 {from_currency} = {conversion_rate:.4f} {to_currency}\")\n",
+        "\n",
+        "    except Exception as e:\n",
+        "        st.error(f\"Error: {str(e)}\")\n",
+        "\n",
+        "# Styling footer\n",
+        "st.markdown(\"\"\"\n",
+        "<style>\n",
+        "footer {visibility: hidden;}\n",
+        "footer:after {\n",
+        "    content: 'Powered by Streamlit and forex-python | Stay updated with real-time currency rates 💼📈';\n",
+        "    visibility: visible;\n",
+        "    display: block;\n",
+        "    text-align: center;\n",
+        "    padding: 10px;\n",
+        "    font-size: small;\n",
+        "    color: #4CAF50;\n",
+        "}\n",
+        "</style>\n",
+        "\"\"\", unsafe_allow_html=True)\n",
+        "\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "5iiSK1I4WUcv",
+        "outputId": "abfb5af0-350d-40c3-9588-c7a4f8e5609f"
+      },
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "2024-10-16 18:24:05.693 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.696 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.698 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.699 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.701 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.702 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.704 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.705 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.707 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.714 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.716 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.719 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.721 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.723 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.724 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.725 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.727 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.728 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.729 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.731 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.733 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.734 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.735 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.737 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.739 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.741 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.743 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.745 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.746 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.748 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+            "2024-10-16 18:24:05.753 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "DeltaGenerator()"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ]
+    }
+  ]
+}
